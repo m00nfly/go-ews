@@ -9,6 +9,7 @@ type MimeContentUTF8 struct {
 
 	// If set, the value for this attribute is ignored by the server.
 	CharacterSet *string `xml:"CharacterSet,attr"`
+	Content      *string `xml:",chardata"`
 }
 
 func (M *MimeContentUTF8) SetForMarshal() {

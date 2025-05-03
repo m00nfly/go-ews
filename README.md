@@ -12,7 +12,7 @@ All elements from [EWS elements](https://learn.microsoft.com/en-us/exchange/clie
 
 Some operations from [EWS operations](https://learn.microsoft.com/en-us/exchange/client-developer/web-service-reference/ews-operations-in-exchange) has been described and are  **accessible!**.  100% of fields are mapped.
 
-*But you can use all of operation, which you need by the interaction with elements. [Example](https://github.com/beorereleverion/go-ews/blob/main/examples/getCalendarItemProperty/main.go)*
+*But you can use all of operation, which you need by the interaction with elements. [Example](https://github.com/m00nfly/go-ews/blob/main/examples/getCalendarItemProperty/main.go)*
 
 ### Described operations
 
@@ -23,7 +23,7 @@ Some operations from [EWS operations](https://learn.microsoft.com/en-us/exchange
 
 ## Usage
 
-some usable examples you can find in [Examples](https://github.com/beorereleverion/go-ews/blob/main/examples/) folder
+some usable examples you can find in [Examples](https://github.com/m00nfly/go-ews/blob/main/examples/) folder
 in this example you can create draft with operation(in examples you can find how to do anything without predefined operation)
 
     package main
@@ -32,8 +32,8 @@ in this example you can create draft with operation(in examples you can find how
         "fmt"
         "os"
 
-        goews "github.com/beorereleverion/go-ews"
-        "github.com/beorereleverion/go-ews/elements"
+        goews "github.com/m00nfly/go-ews"
+        "github.com/m00nfly/go-ews/elements"
         log "github.com/sirupsen/logrus"
     )
 

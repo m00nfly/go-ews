@@ -9,8 +9,8 @@ import (
 	"net/http/httputil"
 
 	"github.com/Azure/go-ntlmssp"
-	"github.com/beorereleverion/go-ews/elements"
-	"github.com/beorereleverion/go-ews/operations"
+	"github.com/m00nfly/go-ews/elements"
+	"github.com/m00nfly/go-ews/operations"
 )
 
 type Envelope interface {
@@ -75,7 +75,9 @@ func (c *client) SendAndReceive(e Envelope) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer req.Body.Close()
+	defer func(Body io.ReadCloser) {
+		_ = Body.Close()
+	}(req.Body)
 	c.logRequest(req)
 
 	req.SetBasicAuth(c.username, c.password)
@@ -92,7 +94,9 @@ func (c *client) SendAndReceive(e Envelope) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		_ = Body.Close()
+	}(resp.Body)
 	c.logResponse(resp)
 
 	if resp.StatusCode != http.StatusOK {

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	goews "github.com/beorereleverion/go-ews"
-	"github.com/beorereleverion/go-ews/elements"
+	goews "github.com/m00nfly/go-ews"
+	"github.com/m00nfly/go-ews/elements"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -54,7 +54,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%#v\n", createItemResponse.ResponseMessages)
+	fmt.Printf("%#v\n", createItemResponse)
 }
 
 func setOSEnvs() {
