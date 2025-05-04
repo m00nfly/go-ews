@@ -78,11 +78,12 @@ func (c *client) SendAndReceive(e Envelope) ([]byte, error) {
 	defer func(Body io.ReadCloser) {
 		_ = Body.Close()
 	}(req.Body)
+
+	req.Header.Set("Content-Type", "text/xml")
+	req.Header.Set("User-Agent", "Go-EWS-Client/0.0")
 	c.logRequest(req)
 
 	req.SetBasicAuth(c.username, c.password)
-	req.Header.Set("Content-Type", "text/xml")
-
 	client := &http.Client{
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
 			return http.ErrUseLastResponse
@@ -111,16 +112,22 @@ func (c *client) SendAndReceive(e Envelope) ([]byte, error) {
 }
 
 func applyConfig(config *Config, client *http.Client) {
+	tlsConfig := &tls.Config{}
+	if config.SkipTLS {
+		tlsConfig.InsecureSkipVerify = true
+	}
+
 	if config.NTLM {
 		client.Transport = ntlmssp.Negotiator{
 			RoundTripper: &http.Transport{
-				TLSNextProto: map[string]func(authority string, c *tls.Conn) http.RoundTripper{},
+				TLSClientConfig: tlsConfig,
+				TLSNextProto:    map[string]func(authority string, c *tls.Conn) http.RoundTripper{},
 			},
 		}
 	}
 
-	if config.SkipTLS {
-		client.Transport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	if client.Transport == nil {
+		client.Transport = &http.Transport{TLSClientConfig: tlsConfig}
 	}
 }
 
@@ -130,7 +137,7 @@ func (c *client) logRequest(req *http.Request) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Printf("Request:\n%v\n----\n", string(dump))
+		fmt.Printf("请求体:\n%v\n----\n", string(dump))
 	}
 }
 
@@ -140,6 +147,6 @@ func (c *client) logResponse(resp *http.Response) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Printf("Response:\n%v\n----\n", string(dump))
+		fmt.Printf("响应体:\n%v\n----\n", string(dump))
 	}
 }
